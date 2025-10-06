@@ -32,7 +32,7 @@ routeurContact.get('/:id', async (req, res) => {
 });
 
 
-routeurContact.put('/modif/:id', async (req, res) => {
+routeurContact.patch('/modif/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const contact = await Contact.findByIdAndUpdate(id, req.body, { new: true });
@@ -110,7 +110,7 @@ module.exports = routeurContact;
 /**
  * @swagger
  * /api/contacts/modif/{id}:
- *   put:
+ *   patch:
  *     summary: Modifie un contact
  *     parameters:
  *       - in: path
