@@ -1,12 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors'); 
 const app = express();
+
+app.use(cors()); 
+
+app.use(express.json());
 
 const routeurContact = require('./controller/routeurContact.js');
 const routeurAuth = require('./controller/authController.js');
 const { swaggerUi, swaggerSpec } = require('./swagger'); 
 
-app.use(express.json());
 
 app.use('/api/contacts', routeurContact);
 app.use('/api/auth', routeurAuth);

@@ -9,7 +9,8 @@ const requireAuth = require("../auth/requireAuth");
 routeurAuth.post('/inscription', async (req, res) => {
     try {
         const { email, mdp } = req.body;
-        const user = new User({ email, mdp });
+        const hash = await bcrypt.hash(mdp, 10); 
+        const user = new User({ email, mdp: hash });
         await user.save();
         res.status(201).json({ message: "Utilisateur créé ^^" });
     } catch (err) {
