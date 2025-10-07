@@ -17,6 +17,8 @@ export default function Connexion() {
       });
       const data = await res.json();
       if (res.ok) {
+        //ca permet de sauvegarder le token 
+        localStorage.setItem('token', data.token); // Sauvegarde le token
         setMessage("Connexion réussie :O");
         navigate("/contacts"); 
       } else {

@@ -4,7 +4,6 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
-
 app.use(express.json());
 
 const routeurContact = require("./controller/routeurContact.js");
@@ -13,7 +12,6 @@ const { swaggerUi, swaggerSpec } = require("./swagger");
 
 app.use("/api/contacts", routeurContact);
 app.use("/api/auth", routeurAuth);
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 mongoose
@@ -27,6 +25,11 @@ mongoose
     console.error("Erreur de connexion à MongoDB :", err.message);
   });
 
-app.listen(8080, () => {
-  console.log("Server is running on http://localhost:8080");
-});
+// Démarre le serveur uniquement si ce fichier est lancé directement
+if (require.main === module) {
+  app.listen(8080, () => {
+    console.log("Server is running on http://localhost:8080");
+  });
+}
+
+module.exports = app;

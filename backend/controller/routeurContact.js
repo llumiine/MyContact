@@ -13,7 +13,7 @@ routeurContact.get('/', (req, res) => {
 
 routeurContact.get('/all',requireAuth, async (req, res) => {
     try {
-        const userId = req.user.user_id;
+        const userId = req.user.userId;
         const contacts = await Contact.find({user_id: userId });
         res.status(200).json(contacts);
     } catch (error) {
