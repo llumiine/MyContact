@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Connexion() {
-  const [email, setEmail] = useState('');
-  const [mdp, setMdp] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [mdp, setMdp] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:8080/api/auth/connexion', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, mdp }),
+      const res = await fetch("http://localhost:8080/api/auth/connexion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, mdp, message }),
       });
       const data = await res.json();
       if (res.ok) {
-        setMessage('Connexion réussie !');
-        navigate('/contacts'); // Redirection vers la liste des contacts
+        setMessage("Connexion réussie :O");
+        navigate("/contacts"); 
       } else {
-        setMessage(data.message || "Erreur lors de la connexion");
+        setMessage(data.message || "Erreur de connexion");
       }
     } catch (err) {
-      setMessage('Erreur serveur');
+      setMessage("Erreur serveur");
     }
   };
 
@@ -38,7 +38,7 @@ export default function Connexion() {
               type="email"
               name="email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </label>
@@ -50,7 +50,7 @@ export default function Connexion() {
               type="password"
               name="mdp"
               value={mdp}
-              onChange={e => setMdp(e.target.value)}
+              onChange={(e) => setMdp(e.target.value)}
               required
             />
           </label>

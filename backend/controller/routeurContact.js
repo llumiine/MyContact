@@ -11,9 +11,10 @@ routeurContact.get('/', (req, res) => {
 });
 
 
-routeurContact.get('/all', async (req, res) => {
+routeurContact.get('/all',requireAuth, async (req, res) => {
     try {
-        const contacts = await Contact.find({});
+        const userId = req.user.user_id;
+        const contacts = await Contact.find({user_id: userId });
         res.status(200).json(contacts);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -21,7 +22,7 @@ routeurContact.get('/all', async (req, res) => {
 });
 
 
-routeurContact.get('/:id', async (req, res) => {
+routeurContact.get('/:id',requireAuth, async (req, res) => {
     try {
         const { id } = req.params;
         const contact = await Contact.findById(id);
@@ -32,7 +33,7 @@ routeurContact.get('/:id', async (req, res) => {
 });
 
 
-routeurContact.patch('/modif/:id', async (req, res) => {
+routeurContact.patch('/modif/:id',requireAuth, async (req, res) => {
     try {
         const { id } = req.params;
         const contact = await Contact.findByIdAndUpdate(id, req.body, { new: true });
@@ -44,7 +45,7 @@ routeurContact.patch('/modif/:id', async (req, res) => {
 });
 
 
-routeurContact.delete('/:id', async (req, res) => {
+routeurContact.delete('/supprimer/:id', requireAuth, async (req, res) => {
     try {
         const { id } = req.params;
         const contact = await Contact.findByIdAndDelete(id);
@@ -58,11 +59,12 @@ routeurContact.delete('/:id', async (req, res) => {
 });
 
 
-routeurContact.post('/', async (req, res) => {
+routeurContact.post('/', requireAuth, async (req, res) => {
     try {
-        const { nom, prenom, phone, email } = req.body;
-        const contact = new Contact({ nom, prenom, phone, email });
+        const { nom, prenom, phone, email, user_id } = req.body;
+        const contact = new Contact({ nom, prenom, phone, email, user_id });
         await contact.save();
+        console.log('ok');
         res.status(201).json(contact);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -113,6 +115,10 @@ module.exports = routeurContact;
  *             properties:
  *               nom:
  *                 type: string
+ *               prenom:
+ *                 type: string
+ *               phone:
+ *                 type: number
  *               email:
  *                 type: string
  *     responses:
