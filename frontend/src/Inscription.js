@@ -7,8 +7,8 @@ export default function Inscription() {
   //pour soumettre le formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:8080/api/auth/inscription", {
+    try { 
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/inscription`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, mdp }),

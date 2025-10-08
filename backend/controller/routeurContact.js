@@ -5,7 +5,7 @@ const Contact = require('../models/contact.js');
 const routeurContact = express.Router();
 const mongoose = require('mongoose');
 const requireAuth = require('../auth/requireAuth.js');
-
+ 
 routeurContact.get('/', (req, res) => {
     res.send('coucou le monde!');
 });

@@ -8,7 +8,8 @@ function requireAuth(req, res, next) {
 
     const token = authHeader.split(' ')[1];
     try {
-        const decoded = jwt.verify(token, 'SECRET_JWT');
+        const secret = process.env.JWT_SECRET || 'DEV_SECRET';
+        const decoded = jwt.verify(token, secret);
         req.user = decoded;
         console.log("Utilisateur authentifié :", decoded);
         next();

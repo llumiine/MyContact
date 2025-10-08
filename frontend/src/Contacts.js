@@ -16,10 +16,8 @@ export default function Contacts() {
 //il recupere la liste des contacts depuis le lien fetch
   const chargerContacts = () => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:8080/api/contacts/all', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+    fetch(`${process.env.REACT_APP_API_URL}/api/contacts/all`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(data => setContacts(data))
@@ -47,7 +45,7 @@ export default function Contacts() {
       // ajout de contact 
       await fetch('http://localhost:8080/api/contacts', {
         method: 'POST',
-        headers: {
+        headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },

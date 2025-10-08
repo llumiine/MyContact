@@ -16,7 +16,7 @@ routeurAuth.post('/inscription', async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
-});
+}); 
 
 routeurAuth.post('/connexion', async (req, res) => {
     try {
@@ -27,8 +27,10 @@ routeurAuth.post('/connexion', async (req, res) => {
         const valid = await bcrypt.compare(mdp, user.mdp);
         if (!valid) return res.status(400).json({ message: "Mot de passe incorrect" });
 
-        const token = jwt.sign({ userId: user._id }, 'SECRET_JWT', { expiresIn: '1h' });
-        res.json({ token });
+        const secret = process.env.JWT_SECRET;
+if (!secret) console.warn('JWT_SECRET non défini dans les env vars');
+const token = jwt.sign({ userId: user._id }, secret || 'DEV_SECRET', { expiresIn: '1h' });
+res.json({ token });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

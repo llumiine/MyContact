@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -14,10 +15,9 @@ app.use("/api/contacts", routeurContact);
 app.use("/api/auth", routeurAuth);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/MyContact";
 mongoose
-  .connect(
-    "mongodb+srv://laamahmed:8nBn8jKIAUG25HfC@mycontact.gmiwqrx.mongodb.net/Node-API?retryWrites=true&w=majority&appName=MyContact"
-  )
+  .connect(mongoUri)
   .then(() => {
     console.log("BD Connectée");
   })
@@ -27,8 +27,9 @@ mongoose
 
 // Démarre le serveur uniquement si ce fichier est lancé directement
 if (require.main === module) {
-  app.listen(8080, () => {
-    console.log("Server is running on http://localhost:8080");
+  const port = process.env.PORT || 8080;
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
   });
 }
 

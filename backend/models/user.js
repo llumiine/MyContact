@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema(
             type: String,
             required: [true, "Entrez l'email"],
             unique: true
-        },
+        }, 
 
         mdp: {
             type: String,
