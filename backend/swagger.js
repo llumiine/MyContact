@@ -1,18 +1,15 @@
-const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 
 const options = {
   definition: {
     openapi: '3.0.0',
-    info: {
-      title: 'API MyContact',
-      version: '1.0.0',
-      description: 'Documentation ',
-    },
+    info: { title: 'MyContact API', version: '1.0.0' },
+    servers: [{ url: process.env.BASE_URL || `http://localhost:${process.env.PORT || 8080}` }],
   },
-  apis: ['./controller/*.js'],
+  apis: ['./controller/*.js', '../frontend/src/*.js'], 
 };
 
-const swaggerSpec = swaggerJsdoc(options);
- 
+const swaggerSpec = swaggerJSDoc(options);
+
 module.exports = { swaggerUi, swaggerSpec };
