@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 // pour gerer les etats 
+
+// utilise la même variable d'environnement partout
+const API_URL = process.env.REACT_APP_API_URL;
+
 export default function Contacts() {
   const [contacts, setContacts] = useState([]);
   const [message, setMessage] = useState('');
@@ -27,12 +31,13 @@ export default function Contacts() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const user_id = payload.userId;
+    let payload = {};
+    try { payload = JSON.parse(atob((token||'').split('.')[1]||'{}')); } catch {}
+    const user_id = payload.userId || payload.id || null;
 
     if (editId) {
       // Modification d'un contact
-      await fetch(`http://localhost:8080/api/contacts/modif/${editId}`, {
+      await fetch(`${API_URL}/api/contacts/modif/${editId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +48,7 @@ export default function Contacts() {
       setMessage('Contact modifié');
     } else {
       // ajout de contact 
-      await fetch('http://localhost:8080/api/contacts', {
+      await fetch(`${API_URL}/api/contacts`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -74,7 +79,7 @@ export default function Contacts() {
 //sers a supprimer le contact la methode c'est delete
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
-    await fetch(`http://localhost:8080/api/contacts/supprimer/${id}`, {
+    await fetch(`${API_URL}/api/contacts/supprimer/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -132,7 +137,6 @@ export default function Contacts() {
       {message && <p>{message}</p>}
       {/* affichager la liste des contacts */}
       <ul>
-      
         {contacts.map(contact => (
           <li key={contact._id}>
             Nom: {contact.nom} - Prénom: {contact.prenom} - Numéro: {contact.phone} - Email: {contact.email}
