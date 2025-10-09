@@ -27,7 +27,7 @@ npx nodemon server.js
 ```
 
 L’API sera disponible sur [http://localhost:8080](http://localhost:8080)  
-La documentation Swagger sur [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
+La documentation Swagger sur [http://localhost:8080/api-docs](http://localhost:8080/api-docs/#/)
 
 ### Frontend
 
